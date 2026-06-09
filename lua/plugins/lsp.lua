@@ -33,13 +33,15 @@ return {
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
           local buf = args.buf
+          local sysname = (vim.uv or vim.loop).os_uname().sysname
+          local primary_mod = sysname == "Darwin" and "D" or "C"
           local function map(keys, fn, desc)
             vim.keymap.set("n", keys, fn, { buffer = buf, desc = desc })
           end
 
           map("gd", vim.lsp.buf.definition, "Go to definition")
-          -- Cmd+Click jumps to definition like VSCode (moves cursor to click, then jumps)
-          vim.keymap.set("n", "<D-LeftMouse>", "<LeftMouse><cmd>lua vim.lsp.buf.definition()<cr>",
+          -- Cmd/Ctrl+Click jumps to definition like VSCode (moves cursor to click, then jumps)
+          vim.keymap.set("n", ("<%s-LeftMouse>"):format(primary_mod), "<LeftMouse><cmd>lua vim.lsp.buf.definition()<cr>",
             { buffer = buf, desc = "Go to definition (click)" })
           map("gD", vim.lsp.buf.declaration, "Go to declaration")
           map("gi", vim.lsp.buf.implementation, "Go to implementation")
