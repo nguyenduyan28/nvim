@@ -19,7 +19,7 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 
 -- GUI font (Neovide / other GUIs). The :h<N> sets the point size.
-vim.opt.guifont = "JetBrains Mono:h16"
+vim.opt.guifont = "Fira Code:h16"
 
 -- Neovide GUI: disable all animations (only applies when running in Neovide)
 if vim.g.neovide then
