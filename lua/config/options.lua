@@ -14,6 +14,7 @@ vim.opt.linebreak = true
 
 vim.opt.clipboard = "unnamedplus"
 vim.opt.signcolumn = "yes"
+vim.opt.statuscolumn = "%s%=%l  "
 
 vim.opt.splitright = true
 vim.opt.splitbelow = true
