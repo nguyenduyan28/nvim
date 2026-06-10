@@ -22,11 +22,14 @@ map({ "n", "i", "v" }, "<D-S-o>", "<cmd>Telescope lsp_document_symbols<cr>", { d
 -- Go to Symbol in project like VSCode Cmd+T
 map({ "n", "i", "v" }, "<D-t>", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", { desc = "Symbols in project" })
 
+-- Toggle rendered Markdown preview like VSCode Cmd+Shift+V.
+map({ "n", "i", "v" }, "<D-S-v>", "<cmd>RenderMarkdown toggle<cr>", { desc = "Toggle Markdown preview" })
+
 -- Open buffers
 map("n", "<leader>b", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
 
--- Toggle file tree like VSCode Cmd+B (works in normal, insert, visual)
-map({ "n", "i", "v" }, "<D-b>", "<cmd>NvimTreeToggle<cr>", { desc = "Toggle file tree" })
+-- Toggle file tree like VSCode Cmd+B, revealing the current file.
+map({ "n", "i", "v" }, "<D-b>", "<cmd>NvimTreeFindFileToggle<cr>", { desc = "Toggle file tree" })
 
 -- Focus file tree
 map("n", "<leader>e", "<cmd>NvimTreeFocus<cr>", { desc = "Focus file tree" })
