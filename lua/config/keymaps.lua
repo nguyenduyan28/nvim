@@ -28,6 +28,9 @@ map({ "n", "i", "v" }, primary_key("S-o"), "<cmd>Telescope lsp_document_symbols<
 -- Go to Symbol in project like VSCode Cmd/Ctrl+T
 map({ "n", "i", "v" }, primary_key("t"), "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", { desc = "Symbols in project" })
 
+-- Toggle rendered Markdown preview like VSCode Cmd+Shift+V.
+map({ "n", "i", "v" }, "<D-S-v>", "<cmd>RenderMarkdown toggle<cr>", { desc = "Toggle Markdown preview" })
+
 -- Open buffers
 map("n", "<leader>b", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
 

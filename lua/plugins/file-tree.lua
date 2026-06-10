@@ -6,7 +6,10 @@ return {
   config = function()
     require("nvim-tree").setup({
       view = {
-        width = 30,
+        width = 45,
+      },
+      update_focused_file = {
+        enable = true,
       },
       renderer = {
         icons = {

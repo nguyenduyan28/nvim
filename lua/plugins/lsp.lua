@@ -13,8 +13,18 @@ return {
     dependencies = {
       "williamboman/mason.nvim",
       "neovim/nvim-lspconfig",
+      "hrsh7th/cmp-nvim-lsp",
+      "ray-x/lsp_signature.nvim",
     },
     config = function()
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local lspconfig = require("lspconfig")
+      lspconfig.util.default_config.capabilities = vim.tbl_deep_extend(
+        "force",
+        lspconfig.util.default_config.capabilities,
+        capabilities
+      )
+
       require("mason-lspconfig").setup({
         -- TypeScript / JavaScript language server
         ensure_installed = { "vtsls" },
@@ -47,6 +57,15 @@ return {
           map("gi", vim.lsp.buf.implementation, "Go to implementation")
           map("gr", vim.lsp.buf.references, "References")
           map("K", vim.lsp.buf.hover, "Hover docs")
+          vim.keymap.set({ "n", "i" }, "<C-k>", vim.lsp.buf.signature_help, { buffer = buf, desc = "Signature help" })
+          require("lsp_signature").on_attach({
+            bind = true,
+            floating_window = true,
+            hint_enable = false,
+            handler_opts = {
+              border = "rounded",
+            },
+          }, buf)
           map("<leader>rn", vim.lsp.buf.rename, "Rename symbol")
           map("<leader>ca", vim.lsp.buf.code_action, "Code action")
           map("<leader>d", vim.diagnostic.open_float, "Show diagnostic")

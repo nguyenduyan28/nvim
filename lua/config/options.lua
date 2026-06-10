@@ -19,8 +19,8 @@ vim.opt.statuscolumn = "%s%=%l  "
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
--- GUI font (Neovide / other GUIs). The :h<N> sets the point size.
-vim.opt.guifont = "Fira Code:h14"
+-- GUI font (Neovide / other GUIs). Nerd Font is required for file icons.
+vim.opt.guifont = "FiraCode Nerd Font Mono:h14"
 
 -- Neovide GUI: disable all animations (only applies when running in Neovide)
 if vim.g.neovide then
