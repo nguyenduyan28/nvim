@@ -33,6 +33,10 @@ map({ "n", "i", "v" }, "<D-S-v>", "<cmd>RenderMarkdown toggle<cr>", { desc = "To
 
 -- Open buffers
 map("n", "<leader>b", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
+map({ "n", "i", "v" }, primary_key("S-]"), "<cmd>bnext<cr>", { desc = "Next buffer" })
+map({ "n", "i", "v" }, primary_key("S-["), "<cmd>bprevious<cr>", { desc = "Previous buffer" })
+map("n", "L", "<cmd>bnext<cr>", { desc = "Next buffer" })
+map("n", "H", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
 
 -- Toggle file tree like VSCode Cmd/Ctrl+B (works in normal, insert, visual)
 map({ "n", "i", "v" }, primary_key("b"), "<cmd>NvimTreeToggle<cr>", { desc = "Toggle file tree" })
@@ -66,6 +70,13 @@ map({ "n", "i", "v" }, primary_key("S-g"), function()
   end
 end, { desc = "Toggle source control (diff view)" })
 map("n", "<leader>gq", "<cmd>DiffviewClose<cr>", { desc = "Close diff view" })
+map("n", "<leader>gm", function()
+  if diffview_is_open() then
+    vim.cmd("DiffviewClose")
+  else
+    vim.cmd("DiffviewOpen master...HEAD")
+  end
+end, { desc = "Compare branch with master" })
 map("n", "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", { desc = "File history (current file)" })
 map("n", "<leader>gH", "<cmd>DiffviewFileHistory<cr>", { desc = "File history (project)" })
 

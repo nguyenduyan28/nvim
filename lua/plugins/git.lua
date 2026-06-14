@@ -2,7 +2,29 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     config = function()
-      require("gitsigns").setup()
+      require("gitsigns").setup({
+        current_line_blame = true,
+        current_line_blame_opts = {
+          virt_text = true,
+          virt_text_pos = "eol",
+          delay = 500,
+        },
+        current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
+        on_attach = function(bufnr)
+          local gitsigns = require("gitsigns")
+          local function map(keys, fn, desc)
+            vim.keymap.set("n", keys, fn, { buffer = bufnr, desc = desc })
+          end
+
+          map("]h", function() gitsigns.nav_hunk("next") end, "Next git hunk")
+          map("[h", function() gitsigns.nav_hunk("prev") end, "Previous git hunk")
+          map("<leader>gb", gitsigns.blame_line, "Git blame line")
+          map("<leader>gB", gitsigns.toggle_current_line_blame, "Toggle git blame")
+          map("<leader>gp", gitsigns.preview_hunk, "Preview git hunk")
+          map("<leader>gs", gitsigns.stage_hunk, "Stage git hunk")
+          map("<leader>gr", gitsigns.reset_hunk, "Reset git hunk")
+        end,
+      })
     end,
   },
 

@@ -19,6 +19,27 @@ return {
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = require("lspconfig")
+      local vue_language_server_path = vim.fn.stdpath("data")
+        .. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
+
+      vim.lsp.config("vtsls", {
+        filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+        settings = {
+          vtsls = {
+            tsserver = {
+              globalPlugins = {
+                {
+                  name = "@vue/typescript-plugin",
+                  location = vue_language_server_path,
+                  languages = { "vue" },
+                  configNamespace = "typescript",
+                },
+              },
+            },
+          },
+        },
+      })
+
       lspconfig.util.default_config.capabilities = vim.tbl_deep_extend(
         "force",
         lspconfig.util.default_config.capabilities,
@@ -26,8 +47,8 @@ return {
       )
 
       require("mason-lspconfig").setup({
-        -- TypeScript / JavaScript language server
-        ensure_installed = { "vtsls" },
+        -- TypeScript / JavaScript / Vue language servers
+        ensure_installed = { "vtsls", "vue_ls" },
         automatic_installation = true,
       })
 
