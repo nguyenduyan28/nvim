@@ -9,6 +9,16 @@ end
 -- Save like VSCode: Cmd on macOS, Ctrl on Linux/Windows.
 map({ "n", "i" }, primary_key("s"), "<cmd>w<cr>", { desc = "Save file" })
 
+-- Clipboard: Cmd/Ctrl+C copy, Cmd/Ctrl+V paste, Cmd/Ctrl+X cut
+map("v", primary_key("c"), '"+y', { desc = "Copy" })
+map("n", primary_key("v"), '"+p', { desc = "Paste" })
+map("i", primary_key("v"), "<C-r>+", { desc = "Paste" })
+map("v", primary_key("v"), '"_d"+P', { desc = "Paste over selection" })
+map("v", primary_key("x"), '"+d', { desc = "Cut" })
+
+-- New tab like browser
+map({ "n", "i" }, primary_key("n"), "<cmd>tabnew<cr>", { desc = "New tab" })
+
 -- File search like VSCode Cmd/Ctrl+P (works in normal, insert, visual)
 map({ "n", "i", "v" }, primary_key("p"), "<cmd>Telescope find_files<cr>", { desc = "Find files" })
 
@@ -52,6 +62,11 @@ map("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
 
 -- Git panel
 map("n", "<leader>g", "<cmd>LazyGit<cr>", { desc = "Open LazyGit" })
+
+-- Theme picker
+map("n", "<leader>th", function()
+  require("config.theme").select()
+end, { desc = "Select theme" })
 
 -- Is the Diffview tab currently open? (without force-loading the plugin)
 local function diffview_is_open()

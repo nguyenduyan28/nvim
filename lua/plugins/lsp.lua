@@ -23,7 +23,6 @@ return {
         .. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
 
       vim.lsp.config("vtsls", {
-        filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
         settings = {
           vtsls = {
             tsserver = {
@@ -40,16 +39,44 @@ return {
         },
       })
 
+      vim.lsp.config("lua_ls", {
+        settings = {
+          Lua = {
+            diagnostics = {
+              globals = { "vim" },
+            },
+          },
+        },
+      })
+
       lspconfig.util.default_config.capabilities = vim.tbl_deep_extend(
         "force",
         lspconfig.util.default_config.capabilities,
         capabilities
       )
 
+      local disabled_servers = {
+        -- Keep Goneovim lightweight by not auto-enabling broad/heavy language servers.
+        "html",
+        "cssls",
+        "tailwindcss",
+        "emmet_language_server",
+        "jsonls",
+        "yamlls",
+        "ts_ls",
+      }
+
       require("mason-lspconfig").setup({
-        -- TypeScript / JavaScript / Vue language servers
-        ensure_installed = { "vtsls", "vue_ls" },
-        automatic_installation = true,
+        ensure_installed = {
+          "vtsls",
+          "vue_ls",
+          "eslint",
+          "lua_ls",
+          "ruby_lsp",
+        },
+        automatic_enable = {
+          exclude = disabled_servers,
+        },
       })
 
       -- Show diagnostics inline

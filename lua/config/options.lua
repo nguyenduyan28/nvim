@@ -15,12 +15,15 @@ vim.opt.linebreak = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.signcolumn = "yes"
 vim.opt.statuscolumn = "%s%=%l  "
+vim.opt.cmdheight = 0
+vim.opt.laststatus = 0
 
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
 -- GUI font (Neovide / other GUIs). Nerd Font is required for file icons.
-vim.opt.guifont = "FiraCode Nerd Font Mono:h15"
+vim.opt.guifont = "FiraCode Nerd Font Mono:h16"
+vim.opt.linespace = 3
 
 -- Neovide GUI: disable all animations (only applies when running in Neovide)
 if vim.g.neovide then
