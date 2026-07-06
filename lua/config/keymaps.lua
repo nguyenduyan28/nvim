@@ -63,11 +63,6 @@ map("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
 -- Git panel
 map("n", "<leader>g", "<cmd>LazyGit<cr>", { desc = "Open LazyGit" })
 
--- Theme picker
-map("n", "<leader>th", function()
-  require("config.theme").select()
-end, { desc = "Select theme" })
-
 -- Is the Diffview tab currently open? (without force-loading the plugin)
 local function diffview_is_open()
   if not package.loaded["diffview"] then
