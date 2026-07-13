@@ -7,7 +7,12 @@ return {
     config = function()
       vim.o.background = "light"
       require("github-theme").setup({})
-      vim.cmd.colorscheme("github_light")
+      vim.cmd.colorscheme("github_light_colorblind")
     end,
+  },
+  {
+    "rebelot/kanagawa.nvim",
+    lazy = false,
+    priority = 999,
   },
 }

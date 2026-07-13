@@ -63,13 +63,13 @@ return {
         "emmet_language_server",
         "jsonls",
         "yamlls",
-        "ts_ls",
       }
 
       require("mason-lspconfig").setup({
         ensure_installed = {
-          "vtsls",
           "vue_ls",
+          "vtsls",
+          "ts_ls",
           "eslint",
           "lua_ls",
           "ruby_lsp",
