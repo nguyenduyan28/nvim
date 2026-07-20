@@ -6,8 +6,31 @@ local function primary_key(key)
   return ("<%s-%s>"):format(primary_mod, key)
 end
 
+local function project_root()
+  return vim.fs.root(0, ".git") or (vim.uv or vim.loop).cwd()
+end
+
+local function find_project_files()
+  local builtin = require("telescope.builtin")
+  local root = project_root()
+
+  if vim.uv.fs_stat(root .. "/.git") then
+    builtin.git_files({ cwd = root, show_untracked = true })
+  else
+    builtin.find_files({ cwd = root })
+  end
+end
+
+local function grep_project()
+  require("telescope.builtin").live_grep({ cwd = project_root() })
+end
+
 -- Save like VSCode: Cmd on macOS, Ctrl on Linux/Windows.
 map({ "n", "i" }, primary_key("s"), "<cmd>w<cr>", { desc = "Save file" })
+
+-- Toggle comments for the current line or visual selection.
+map("n", primary_key("/"), "gcc", { remap = true, desc = "Toggle comment" })
+map("x", primary_key("/"), "gc", { remap = true, desc = "Toggle comment selection" })
 
 -- Clipboard: Cmd/Ctrl+C copy, Cmd/Ctrl+V paste, Cmd/Ctrl+X cut
 map("v", primary_key("c"), '"+y', { desc = "Copy" })
@@ -20,14 +43,14 @@ map("v", primary_key("x"), '"+d', { desc = "Cut" })
 map({ "n", "i" }, primary_key("n"), "<cmd>tabnew<cr>", { desc = "New tab" })
 
 -- File search like VSCode Cmd/Ctrl+P (works in normal, insert, visual)
-map({ "n", "i", "v" }, primary_key("p"), "<cmd>Telescope find_files<cr>", { desc = "Find files" })
+map({ "n", "i", "v" }, primary_key("p"), find_project_files, { desc = "Find files" })
 
 -- Command palette like VSCode Cmd/Ctrl+Shift+P
 map({ "n", "i", "v" }, primary_key("S-p"), "<cmd>Telescope commands<cr>", { desc = "Command palette" })
 
 -- Search text in project like VSCode Cmd/Ctrl+Shift+F (works in normal, insert, visual)
-map({ "n", "i", "v" }, primary_key("S-f"), "<cmd>Telescope live_grep<cr>", { desc = "Search in project" })
-map("n", "<leader>f", "<cmd>Telescope live_grep<cr>", { desc = "Search in project" })
+map({ "n", "i", "v" }, primary_key("S-f"), grep_project, { desc = "Search in project" })
+map("n", "<leader>f", grep_project, { desc = "Search in project" })
 
 -- Search text in current file like VSCode Cmd/Ctrl+F (works in normal, insert, visual)
 map({ "n", "i", "v" }, primary_key("f"), "<cmd>Telescope current_buffer_fuzzy_find<cr>", { desc = "Search in file" })
@@ -71,11 +94,18 @@ local function diffview_is_open()
   return require("diffview.lib").get_current_view() ~= nil
 end
 
+local function diffview_is_opening()
+  if not package.loaded["diffview"] then
+    return false
+  end
+  return #require("diffview.lib").views > 0
+end
+
 -- VSCode-like Source Control: toggle changed-files list + side-by-side diff (Cmd/Ctrl+Shift+G)
 map({ "n", "i", "v" }, primary_key("S-g"), function()
   if diffview_is_open() then
     vim.cmd("DiffviewClose")
-  else
+  elseif not diffview_is_opening() then
     vim.cmd("DiffviewOpen")
   end
 end, { desc = "Toggle source control (diff view)" })

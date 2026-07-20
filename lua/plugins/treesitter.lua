@@ -31,8 +31,14 @@ return {
         "vim",
         "markdown",
       },
-      callback = function()
-        pcall(vim.treesitter.start)
+      callback = function(args)
+        local name = vim.api.nvim_buf_get_name(args.buf)
+        local stat = name ~= "" and vim.uv.fs_stat(name) or nil
+        if stat and stat.size > 1024 * 1024 then
+          return
+        end
+
+        pcall(vim.treesitter.start, args.buf)
       end,
     })
   end,

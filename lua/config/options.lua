@@ -18,7 +18,7 @@ vim.opt.signcolumn = "yes"
 vim.opt.statuscolumn = "%s%=%l  "
 vim.opt.cmdheight = 0
 vim.opt.laststatus = 0
-vim.opt.showtabline = 2
+vim.opt.showtabline = 0
 
 vim.opt.splitright = true
 vim.opt.splitbelow = true

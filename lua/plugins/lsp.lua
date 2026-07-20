@@ -2,6 +2,7 @@ return {
   -- Mason: installs and manages LSP server binaries
   {
     "williamboman/mason.nvim",
+    cmd = "Mason",
     config = function()
       require("mason").setup()
     end,
@@ -10,6 +11,7 @@ return {
   -- Bridge between Mason and nvim-lspconfig (auto-installs + enables servers)
   {
     "williamboman/mason-lspconfig.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       "williamboman/mason.nvim",
       "neovim/nvim-lspconfig",
@@ -23,6 +25,13 @@ return {
         .. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
 
       vim.lsp.config("vtsls", {
+        filetypes = {
+          "javascript",
+          "javascriptreact",
+          "typescript",
+          "typescriptreact",
+          "vue",
+        },
         settings = {
           vtsls = {
             tsserver = {
@@ -55,27 +64,20 @@ return {
         capabilities
       )
 
-      local disabled_servers = {
-        -- Keep Goneovim lightweight by not auto-enabling broad/heavy language servers.
-        "html",
-        "cssls",
-        "tailwindcss",
-        "emmet_language_server",
-        "jsonls",
-        "yamlls",
-      }
-
       require("mason-lspconfig").setup({
         ensure_installed = {
           "vue_ls",
           "vtsls",
-          "ts_ls",
           "eslint",
           "lua_ls",
           "ruby_lsp",
         },
         automatic_enable = {
-          exclude = disabled_servers,
+          "vue_ls",
+          "vtsls",
+          "eslint",
+          "lua_ls",
+          "ruby_lsp",
         },
       })
 
@@ -106,14 +108,17 @@ return {
           map("gr", vim.lsp.buf.references, "References")
           map("K", vim.lsp.buf.hover, "Hover docs")
           vim.keymap.set({ "n", "i" }, "<C-k>", vim.lsp.buf.signature_help, { buffer = buf, desc = "Signature help" })
-          require("lsp_signature").on_attach({
-            bind = true,
-            floating_window = true,
-            hint_enable = false,
-            handler_opts = {
-              border = "rounded",
-            },
-          }, buf)
+          if not vim.b[buf].lsp_signature_attached then
+            require("lsp_signature").on_attach({
+              bind = true,
+              floating_window = true,
+              hint_enable = false,
+              handler_opts = {
+                border = "rounded",
+              },
+            }, buf)
+            vim.b[buf].lsp_signature_attached = true
+          end
           map("<leader>rn", vim.lsp.buf.rename, "Rename symbol")
           map("<leader>ca", vim.lsp.buf.code_action, "Code action")
           map("<leader>d", vim.diagnostic.open_float, "Show diagnostic")

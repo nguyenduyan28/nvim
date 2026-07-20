@@ -5,7 +5,7 @@ return {
   opts = {
     enabled = true,
     trigger_events = {
-      immediate_save = { "BufLeave", "FocusLost" }, -- save right away
+      immediate_save = {},
       defer_save = { "InsertLeave", "TextChanged" }, -- save after debounce
     },
     -- only save real, modifiable, writable files

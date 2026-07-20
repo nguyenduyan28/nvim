@@ -16,7 +16,7 @@ return {
         highlight = "IndentGuide",
       },
       scope = {
-        enabled = true,
+        enabled = false,
         char = "│",
         highlight = "IndentScope",
         show_start = false,
