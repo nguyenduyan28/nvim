@@ -71,6 +71,7 @@ return {
           "eslint",
           "lua_ls",
           "ruby_lsp",
+          "rust_analyzer",
         },
         automatic_enable = {
           "vue_ls",
@@ -78,6 +79,7 @@ return {
           "eslint",
           "lua_ls",
           "ruby_lsp",
+          "rust_analyzer",
         },
       })
 

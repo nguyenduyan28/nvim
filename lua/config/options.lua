@@ -24,7 +24,7 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 
 -- GUI font (Neovide / other GUIs). Nerd Font is required for file icons.
-vim.opt.guifont = "JetBrainsMonoNL Nerd Font:h16"
+vim.opt.guifont = "JetBrainsMonoNL Nerd Font Mono:h14"
 vim.opt.linespace = 3
 
 -- Neovide GUI: disable all animations (only applies when running in Neovide)
