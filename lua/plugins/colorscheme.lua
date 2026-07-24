@@ -7,7 +7,7 @@ return {
     config = function()
       vim.o.background = "light"
       require("github-theme").setup({})
-      vim.cmd.colorscheme("github_light_colorblind")
+      vim.cmd.colorscheme("github_dark_default")
     end,
   },
   {
